@@ -45,8 +45,8 @@ export default class RandomSquaresAvatar extends Component {
             translateY = 0;
             transform = `translate(${0} ${0})`;
         } else {
-            translateX = -25;
-            translateY = -25;
+            translateX = -35;
+            translateY = -35;
             transform = `translate(${translateX} ${translateY}) rotate(${rotate} ${this.props.width} ${this.props.height})`;
         }
 
