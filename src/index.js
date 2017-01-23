@@ -2,55 +2,9 @@ import React, { Component } from 'react'
 
 export default class RandomSquaresAvatar extends Component {
     render() {
-        let rows, columns, width, height, r, g, b, x, y, fill,
-            translateX, translateY, rotate, rotateAdditionalSize,
-            transform, viewBox;
+        let rows, columns, avatarWidth, avatarHeight, r, g, b, x, y, fill,
+            translateX, translateY, rotate, transform, viewBox, blockSize, maxBlockSize;
         const rects = [];
-
-        let maxBlockSize = (parseInt(this.props.height) - 10);
-
-        if (parseInt(this.props.width) < parseInt(this.props.height)) {
-            maxBlockSize = parseInt(this.props.width)
-        }
-
-        const blockSize = getRandomRangeInIncrementsOf10(50, maxBlockSize);
-
-        if (this.props.rotate === undefined) {
-            rotate = getRandomRangeInIncrementsOf10(10, 90);
-        } else {
-            rotate = parseInt(this.props.rotate);
-        }
-
-        // add extra squares to allow for smaller squares than viewBox and also rotation
-        if (this.props.height === this.props.width) {
-            rotateAdditionalSize = 1;
-        } else {
-            rotateAdditionalSize = 3;
-        }
-
-        if (this.props.height > this.props.width) {
-            columns = ((Math.ceil(parseInt(this.props.height) / blockSize)) + rotateAdditionalSize);
-            rows = columns
-        } else if (this.props.width > this.props.height) {
-            columns = ((Math.ceil(parseInt(this.props.width) / blockSize)) + rotateAdditionalSize);
-            rows = columns
-        } else {
-            columns = ((Math.ceil(parseInt(this.props.height) / blockSize)) + rotateAdditionalSize);
-            rows = ((Math.ceil(parseInt(this.props.width) / blockSize)) + rotateAdditionalSize);
-        }
-
-        // not 0 or 90 degrees rotation offset and rotate around center
-        if ((rotate == 0) || (rotate == 90)) {
-            translateX = 0;
-            translateY = 0;
-            transform = `translate(${0} ${0})`;
-        } else {
-            translateX = -35;
-            translateY = -35;
-            transform = `translate(${translateX} ${translateY}) rotate(${rotate} ${this.props.width} ${this.props.height})`;
-        }
-
-        viewBox = `0 0 ${this.props.width} ${this.props.height}`;
 
         function getRandomRange(min, max) {
             return Math.floor(Math.random() * (max - min) + min);
@@ -59,6 +13,76 @@ export default class RandomSquaresAvatar extends Component {
         function getRandomRangeInIncrementsOf10(min, max) {
             return Math.round((Math.random()*(max-min)+min)/10)*10;
         }
+
+        avatarWidth = parseInt(this.props.width, 10);
+        avatarHeight = parseInt(this.props.height, 10);
+
+        maxBlockSize = (avatarHeight - 10);
+
+        if (avatarWidth < avatarHeight) {
+            maxBlockSize = avatarWidth
+        }
+
+        blockSize = getRandomRangeInIncrementsOf10(50, maxBlockSize);
+
+        if (this.props.rotate === undefined) {
+            rotate = getRandomRangeInIncrementsOf10(10, 80);
+        } else {
+            rotate = parseInt(this.props.rotate, 10);
+        }
+
+        // add extra squares to allow for smaller squares than viewBox and also rotation
+        if (avatarHeight === avatarWidth) {
+            if (rotate === 0) {
+                translateX = 0;
+                translateY = 0;
+                transform = `translate(${0} ${0})`;
+                rows = ((Math.ceil(avatarHeight / blockSize)));
+                columns = ((Math.ceil(avatarWidth / blockSize)));
+                transform = `translate(${translateX} ${translateY}) rotate(${rotate} ${avatarWidth} ${avatarHeight})`;
+            } else {
+                translateX = -Math.abs(avatarHeight / 2);
+                translateY = -Math.abs(avatarWidth / 2);
+                transform = `translate(${0} ${0})`;
+                rows = ((Math.ceil((avatarHeight * 2) / blockSize)));
+                columns = ((Math.ceil((avatarWidth * 2) / blockSize)));
+                transform = `translate(${translateX} ${translateY}) rotate(${rotate} ${avatarWidth} ${avatarHeight})`;
+            }
+        } else if (avatarHeight > avatarWidth) {
+            if (rotate === 0) {
+                translateX = 0;
+                translateY = 0;
+                transform = `translate(${0} ${0})`;
+                rows = ((Math.ceil(avatarHeight / blockSize)));
+                columns = ((Math.ceil(avatarWidth / blockSize)));
+                transform = `translate(${translateX} ${translateY}) rotate(${rotate} ${avatarWidth} ${avatarHeight})`;
+            } else {
+                translateX = -Math.abs(avatarHeight / 2);
+                translateY = -Math.abs(avatarWidth);
+                transform = `translate(${0} ${0})`;
+                rows = ((Math.ceil((avatarHeight * 2) / blockSize)));
+                columns = ((Math.ceil((avatarWidth * 3) / blockSize)));
+                transform = `translate(${translateX} ${translateY}) rotate(${rotate} ${avatarWidth} ${avatarHeight})`;
+            }
+        } else if (avatarHeight < avatarWidth) {
+            if (rotate === 0) {
+                translateX = 0;
+                translateY = 0;
+                transform = `translate(${0} ${0})`;
+                rows = ((Math.ceil(avatarHeight / blockSize)));
+                columns = ((Math.ceil(avatarWidth / blockSize)));
+                transform = `translate(${translateX} ${translateY}) rotate(${rotate} ${avatarWidth} ${avatarHeight})`;
+            } else {
+                translateX = -Math.abs(avatarHeight / 2);
+                translateY = -Math.abs(avatarWidth / 4);
+                transform = `translate(${0} ${0})`;
+                rows = ((Math.ceil((avatarHeight * 4) / blockSize)));
+                columns = ((Math.ceil((avatarWidth * 2) / blockSize)));
+                transform = `translate(${translateX} ${translateY}) rotate(${rotate} ${avatarWidth} ${avatarHeight})`;
+            }
+        }
+
+        viewBox = `0 0 ${avatarWidth} ${avatarHeight}`;
 
         let key = 1;
         for (let i = 0; i < columns; i++) {
@@ -75,14 +99,16 @@ export default class RandomSquaresAvatar extends Component {
         }
 
         return (
-            <svg xmlnsXlink="http://www.w3.org/1999/xlink"
-                height={this.props.height}
-                width={this.props.width}
-                viewBox={viewBox} >
-                        <g transform={transform}>
-                        {rects}
-                        </g>
-            </svg>
+            <div>
+              <svg xmlnsXlink="http://www.w3.org/1999/xlink"
+                  height={avatarHeight}
+                  width={avatarWidth}
+                  viewBox={viewBox} >
+                          <g transform={transform}>
+                          {rects}
+                          </g>
+              </svg>
+            </div>
         )
     }
 }
