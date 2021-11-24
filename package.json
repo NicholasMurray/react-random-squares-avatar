@@ -1,17 +1,17 @@
 {
     "name": "react-random-squares-avatar",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "React Random Squares Avatar",
     "repository": {
         "type": "git",
-        "url": "https://github.com:NicholasMurray/react-random-squares-avatar.git"
+        "url": "https://github.com/NicholasMurray/react-random-squares-avatar.git"
     },
     "author": "Nicholas Murray",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com:NicholasMurray/react-random-squares-avatar/issues"
+        "url": "https://github.com/NicholasMurray/react-random-squares-avatar/issues"
     },
-    "homepage": "https://github.com:NicholasMurray/react-random-squares-avatar",
+    "homepage": "https://github.com/NicholasMurray/react-random-squares-avatar",
     "keywords": [
         "react-component",
         "react"
